@@ -1,0 +1,25 @@
+# Node / dependencies (reinstalled via npm)
+node_modules/
+.pnp
+.pnp.js
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets (NEVER commit these)
+*.pem
+*.key
+.env
+.env.*
+.ssh/
+credentials.json
+**/secrets/**
+**/Library/Keychains/**
+
+# Engram database (backed up separately per BACKUP.md)
+engram/*.db
+engram/*.db-*
+engram/journal/
+engram/*.wal
+engram/*.shm
