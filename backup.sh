@@ -46,10 +46,17 @@ else
     echo "  ⚠️  No se encontró engram.db"
 fi
 
+# 6. Auto-commit + push (si hay cambios)
+echo "[6/6] Commiteando y pusheando..."
+cd "$BACKUP_DIR"
+if ! git diff --quiet HEAD || ! git diff --cached --quiet; then
+    git add -A
+    git commit -m "backup: $(date '+%Y-%m-%d')"
+    git push
+    echo "  ✅ Commit y push exitoso"
+else
+    echo "  ℹ️  Sin cambios nuevos"
+fi
+
 echo ""
 echo "=== Backup completado ==="
-echo "Para commitear:"
-echo "  cd $BACKUP_DIR"
-echo "  git add -A"
-echo '  git commit -m "backup: $(date +%Y-%m-%d)"'
-echo "  git push"

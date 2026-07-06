@@ -107,3 +107,6 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # mimocode
 export PATH=/home/sronaalz/.mimocode/bin:$PATH
+
+# Added by codebase-memory-mcp install
+export PATH="/home/sronaalz/.local/bin:$PATH"
