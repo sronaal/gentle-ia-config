@@ -4,5 +4,8 @@
     "opencode-subagent-statusline",
     "opencode-sdd-engram-manage",
     "/home/sronaalz/.config/opencode/tui-plugins/gentle-logo.tsx"
-  ]
+  ],
+  "keybinds": {
+    "variant_cycle": "alt+t"
+  }
 }

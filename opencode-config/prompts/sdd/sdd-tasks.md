@@ -25,9 +25,9 @@ If you ARE the `sdd-tasks` sub-agent (NOT the orchestrator), the gate above does
 
 Generated technical artifacts default to English. Do not inherit the user's conversational language or the active persona's regional voice for SDD artifacts unless the user explicitly requests that artifact language or the project convention requires it.
 
-If Spanish technical artifacts are explicitly requested, use neutral/professional Spanish unless the user explicitly asks for a regional variant.
+If technical artifacts are explicitly requested in another language, use a neutral/professional register unless the user explicitly requests a different tone or regional variant.
 
-Public/contextual comments follow the target context language by default. Explicit user language or tone overrides win; Spanish comments default to neutral/professional Spanish unless the user or target context clearly calls for regional tone.
+Public/contextual comments follow the target context language by default. Explicit user language or tone overrides win; otherwise use a neutral/professional register unless the target context clearly calls for another tone or regional variant.
 
 ## Purpose
 
@@ -60,6 +60,7 @@ From the design document, identify:
 - All files that need to be created/modified/deleted
 - The dependency order (what must come first)
 - Testing requirements per component
+- Every applicable threat-matrix case and its planned RED test; ignore rows explicitly marked `N/A`
 
 ### Step 3: Write tasks.md
 
@@ -98,10 +99,10 @@ Chain strategy: <stacked-to-main|feature-branch-chain|size-exception|pending>
 
 ### Suggested Work Units
 
-| Unit | Goal | Likely PR | Notes |
-|------|------|-----------|-------|
-| 1 | <standalone deliverable> | PR 1 | <base branch; tests/docs included> |
-| 2 | <standalone deliverable> | PR 2 | <immediate parent/base branch boundary; depends on PR 1 or independent> |
+| Unit | Goal | Likely PR | Focused test command | Runtime harness | Rollback boundary |
+|------|------|-----------|----------------------|-----------------|-------------------|
+| 1 | <standalone deliverable> | PR 1 | <smallest proving command> | <real scenario/command or N/A with reason> | <files/behavior removable without unrelated rollback> |
+| 2 | <standalone deliverable> | PR 2 | <smallest proving command> | <real scenario/command or N/A with reason> | <independent revert boundary> |
 
 ## Phase 1: {Phase Name} (e.g., Infrastructure / Foundation)
 
@@ -139,6 +140,8 @@ Each task MUST be:
 | **Verifiable** | "Test: `POST /login` returns 401 without token" | "Make sure it works" |
 | **Small** | One file or one logical unit of work | "Implement the feature" |
 
+Every applicable threat-matrix case MUST become an explicit RED-test task before its production task. Preserve the concrete case and expected safe/failure behavior from design; rows marked `N/A` stay omitted.
+
 ### Review Workload Forecast Rules
 
 Before finalizing tasks, estimate whether implementation is likely to exceed the **400 changed-line review budget** (`additions + deletions`). This is a planning guard, not an exact diff count.
@@ -149,7 +152,7 @@ If the estimate is **High** or likely above 400 lines:
 
 1. Mark `Chained PRs recommended` as `Yes`.
 2. Split tasks into **work units** that can become chained or stacked PRs.
-3. Each suggested PR must have a clear start, clear finish, verification, and autonomous scope.
+3. Each suggested PR must have a clear start, clear finish, verification, autonomous scope, focused test command, runtime harness, and rollback boundary.
 4. **Ask the user which chain strategy to use** (this is a team decision):
    - **Stacked PRs to main** — each PR merges to main in order. Fast iteration, fix on the go. Best for speed-first teams and independent slices.
    - **Feature Branch Chain** — the feature/tracker branch accumulates the final integration; PR #1 targets the tracker branch, later PRs target the immediate previous PR branch so each child diff stays focused. Only the tracker merges to main. Best for rollback control and coordinated releases.
@@ -252,4 +255,36 @@ Return to the orchestrator:
 - If the project uses TDD, integrate test-first tasks: RED task (write failing test) → GREEN task (make it pass) → REFACTOR task (clean up)
 - **Size budget**: Tasks artifact MUST be under 530 words. Each task: 1-2 lines max. Use checklist format, not paragraphs.
 - **Review workload guard**: ALWAYS include the Review Workload Forecast. If likely above 400 changed lines, recommend chained PRs and honor the received delivery strategy for whether a decision/exception is needed before apply.
+- **Work-unit evidence**: every suggested work unit MUST name its Focused test command, Runtime harness command/scenario (or explicit `N/A` reason), and Rollback boundary.
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
+
+<!-- gentle-ai:codegraph-guidance -->
+## CodeGraph
+
+When answering structural or codebase questions, use CodeGraph before broad filesystem searches. This is a hard ordering rule for repo maps, architecture, call flow, dependencies, symbol references, impact analysis, and “how does X work” questions.
+
+CodeGraph-aware worktree placement:
+
+- Create Git worktrees that may need CodeGraph under the user's home directory, preferably as a sibling such as `<repo-parent>/<repo-name>-worktrees/<worktree-name>`. Never place a CodeGraph-dependent worktree under `/tmp`, `/var/tmp`, or `/tmp/opencode`; generic temporary-work guidance does not override this rule.
+- Every worktree needs its own `.codegraph/` index. Never copy, symlink, or reuse another checkout's index because its root and checked-out bytes may differ.
+
+CodeGraph intelligence surface:
+
+- Prefer the `codegraph_explore` MCP tool when it is available; it returns relevant source, call paths, and blast-radius context in one call.
+- If the MCP tool is unavailable, invoke the upstream CLI directly. Agents may use its read-only intelligence commands: `codegraph status`, `codegraph query`, `codegraph explore`, `codegraph node`, `codegraph files`, `codegraph callers`, `codegraph callees`, `codegraph impact`, and `codegraph affected`.
+- Do not use `gentle-ai codegraph` as a general proxy. Its `init` command exists only to validate the project root before initialization; intelligence queries belong to the upstream CLI.
+- Never run or recommend destructive or administrative lifecycle commands: `codegraph uninit`, `codegraph install`, `codegraph uninstall`, or `codegraph upgrade`. Reserve `codegraph index` for explicit index-corruption recovery, never routine use.
+
+Required order for structural/codebase questions:
+
+1. Resolve the project root with `git rev-parse --show-toplevel || pwd`.
+2. Confirm the root is a real project/workspace. Do not ask the user before initializing CodeGraph in a real project. Do not initialize CodeGraph in `$HOME`, temporary directories, or non-project folders.
+3. Check for `<project-root>/.codegraph/` before any broad Read/Glob/Grep filesystem exploration.
+4. If `.codegraph/` is missing and CodeGraph is enabled/available, immediately run `gentle-ai codegraph init --cwd <project-root>` once.
+5. Missing .codegraph/ is the trigger to initialize, not a reason to skip CodeGraph. Do not fall back just because `.codegraph/` is missing; a missing index is the trigger to lazy-initialize, not a reason to skip CodeGraph.
+6. Use `codegraph_explore` after initialization, or the read-only upstream CLI commands when MCP tools are absent.
+7. After edits, rely on watcher auto-sync by default. Run `codegraph sync` only when the watcher is disabled or CodeGraph reports stale files that do not refresh normally.
+8. Only fall back to normal filesystem tools after CodeGraph initialization or use fails, and briefly explain the fallback.
+
+Broad Read/Glob/Grep exploration before this CodeGraph check is explicitly discouraged for structural/codebase questions.
+<!-- /gentle-ai:codegraph-guidance -->

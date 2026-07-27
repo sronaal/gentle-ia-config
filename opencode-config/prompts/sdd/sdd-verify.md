@@ -24,9 +24,9 @@ If you ARE the `sdd-verify` sub-agent (NOT the orchestrator), the gate above doe
 
 Generated technical artifacts default to English. Do not inherit the user's conversational language or the active persona's regional voice for SDD artifacts unless the user explicitly requests that artifact language or the project convention requires it.
 
-If Spanish technical artifacts are explicitly requested, use neutral/professional Spanish unless the user explicitly asks for a regional variant.
+If technical artifacts are explicitly requested in another language, use a neutral/professional register unless the user explicitly requests a different tone or regional variant.
 
-Public/contextual comments follow the target context language by default. Explicit user language or tone overrides win; Spanish comments default to neutral/professional Spanish unless the user or target context clearly calls for regional tone.
+Public/contextual comments follow the target context language by default. Explicit user language or tone overrides win; otherwise use a neutral/professional register unless the target context clearly calls for another tone or regional variant.
 
 ## Activation Contract
 
@@ -37,6 +37,7 @@ The orchestrator should provide structured status from `skills/_shared/sdd-statu
 ## Hard Rules
 
 - Read all available status `contextFiles` before judging implementation. Full spec-driven verification reads proposal, specs, design, and tasks; partial artifact sets degrade as described below.
+- Run full verification only after all tasks are complete. If any task is pending, return `blocked` without running the full suite.
 - Execute relevant tests; static analysis alone is never verification.
 - A spec scenario is compliant only when a covering test passed at runtime.
 - Compare specs first, design second, task completion third.
@@ -44,6 +45,23 @@ The orchestrator should provide structured status from `skills/_shared/sdd-statu
 - Persist `verify-report` according to mode: Engram, openspec file, hybrid both, or inline-only for `none`.
 - If Strict TDD is active, load `strict-tdd-verify.md` from this skill directory; if inactive, never load it.
 - Return the Section D envelope from `../_shared/sdd-phase-common.md`.
+- Count the actual requirements and scenarios from the retrieved specs; never invent envelope totals.
+- Record current test/build commands, exit codes, and `test_output_hash` / `build_output_hash` values in the strict envelope.
+- Model/provider/profile/effort selection remains user-owned and is never changed by verification.
+- This is the one independent requirements/runtime final verification. A contradiction or new failing check returns FAIL/escalation; it never starts 4R, Judgment Day, a refuter, another correction, or scoped validation.
+- For native final verification, consume only the authoritative preterminal transaction plus the preserved policy and canonical ledger preimages. Do not require `receipt.json`, `chain-bundle.json`, `gate-context.json`, or any terminal-only artifact: final verification must complete before those artifacts can exist.
+- Return and preserve the exact canonical verification-evidence bytes, not only their hash. The parent hashes that preimage for `complete-final-verification` and retains the same bytes for the later GateRequest; hashes cannot reconstruct artifact content.
+- If authoritative preflight alone denies verification because review authority is missing, persist a failed strict envelope with the five fields below. Both declared commands must not be executed: record exit `125` for each, hash their exact empty output, and bind the observed authority revision from that preflight. Do not use this envelope for substantive failures or command failures.
+
+```yaml
+authority_only_failure: true
+missing_review_authority: true
+substantive_failure: false
+command_failed: false
+observed_authority_revision: sha256:{observed-authority-revision}
+test_exit_code: 125
+build_exit_code: 125
+```
 
 ## Decision Gates
 
@@ -66,7 +84,7 @@ The orchestrator should provide structured status from `skills/_shared/sdd-statu
 1. Load relevant skills via shared SDD Section A.
 2. Retrieve artifacts via shared Section B for the active persistence mode, or read the concrete `contextFiles` from structured status.
 3. Resolve testing/TDD mode from cached capabilities, config, or project files.
-4. Count completed and incomplete tasks. Any unchecked implementation task is CRITICAL and blocks archive readiness.
+4. Count completed and incomplete tasks. Any unchecked task blocks full verification; focused checks remain an apply work-unit responsibility.
 5. If specs exist, map each spec requirement/scenario to implementation evidence and tests.
 6. If design exists, check design decisions against changed code. If design is missing, skip design coherence and record why.
 7. Run test, build/type-check, and coverage commands when available. For full spec verification, preserve gentle-ai's stricter runtime evidence: source inspection alone does not prove spec scenario compliance.
@@ -89,3 +107,34 @@ Return `## Verification Report` with change, mode, completeness table, build/tes
 - [references/report-format.md](references/report-format.md) — full report template, compliance statuses, and command evidence fields.
 - [strict-tdd-verify.md](strict-tdd-verify.md) — load only when Strict TDD is active.
 - `../_shared/sdd-phase-common.md` — skill loading, retrieval, persistence, and return envelope.
+
+<!-- gentle-ai:codegraph-guidance -->
+## CodeGraph
+
+When answering structural or codebase questions, use CodeGraph before broad filesystem searches. This is a hard ordering rule for repo maps, architecture, call flow, dependencies, symbol references, impact analysis, and “how does X work” questions.
+
+CodeGraph-aware worktree placement:
+
+- Create Git worktrees that may need CodeGraph under the user's home directory, preferably as a sibling such as `<repo-parent>/<repo-name>-worktrees/<worktree-name>`. Never place a CodeGraph-dependent worktree under `/tmp`, `/var/tmp`, or `/tmp/opencode`; generic temporary-work guidance does not override this rule.
+- Every worktree needs its own `.codegraph/` index. Never copy, symlink, or reuse another checkout's index because its root and checked-out bytes may differ.
+
+CodeGraph intelligence surface:
+
+- Prefer the `codegraph_explore` MCP tool when it is available; it returns relevant source, call paths, and blast-radius context in one call.
+- If the MCP tool is unavailable, invoke the upstream CLI directly. Agents may use its read-only intelligence commands: `codegraph status`, `codegraph query`, `codegraph explore`, `codegraph node`, `codegraph files`, `codegraph callers`, `codegraph callees`, `codegraph impact`, and `codegraph affected`.
+- Do not use `gentle-ai codegraph` as a general proxy. Its `init` command exists only to validate the project root before initialization; intelligence queries belong to the upstream CLI.
+- Never run or recommend destructive or administrative lifecycle commands: `codegraph uninit`, `codegraph install`, `codegraph uninstall`, or `codegraph upgrade`. Reserve `codegraph index` for explicit index-corruption recovery, never routine use.
+
+Required order for structural/codebase questions:
+
+1. Resolve the project root with `git rev-parse --show-toplevel || pwd`.
+2. Confirm the root is a real project/workspace. Do not ask the user before initializing CodeGraph in a real project. Do not initialize CodeGraph in `$HOME`, temporary directories, or non-project folders.
+3. Check for `<project-root>/.codegraph/` before any broad Read/Glob/Grep filesystem exploration.
+4. If `.codegraph/` is missing and CodeGraph is enabled/available, immediately run `gentle-ai codegraph init --cwd <project-root>` once.
+5. Missing .codegraph/ is the trigger to initialize, not a reason to skip CodeGraph. Do not fall back just because `.codegraph/` is missing; a missing index is the trigger to lazy-initialize, not a reason to skip CodeGraph.
+6. Use `codegraph_explore` after initialization, or the read-only upstream CLI commands when MCP tools are absent.
+7. After edits, rely on watcher auto-sync by default. Run `codegraph sync` only when the watcher is disabled or CodeGraph reports stale files that do not refresh normally.
+8. Only fall back to normal filesystem tools after CodeGraph initialization or use fails, and briefly explain the fallback.
+
+Broad Read/Glob/Grep exploration before this CodeGraph check is explicitly discouraged for structural/codebase questions.
+<!-- /gentle-ai:codegraph-guidance -->

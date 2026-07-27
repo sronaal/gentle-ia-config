@@ -30,9 +30,6 @@ Set `capture_prompt: false` when the Engram tool schema supports it; if an older
 | `verify-report` | sdd-verify | Verification report |
 | `archive-report` | sdd-archive | Archive closure with lineage |
 | `state` | orchestrator | DAG state for recovery after compaction |
-| `pipeline-profile` | orchestrator | Session-scoped pipeline profile selection |
-| `heal-state` | orchestrator | Track heal retry count and state |
-| `heal-report` | orchestrator | Diagnostic audit of heal attempts |
 
 
 

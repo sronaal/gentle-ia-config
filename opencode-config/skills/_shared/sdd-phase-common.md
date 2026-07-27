@@ -70,8 +70,6 @@ Return result inline only. Do not write any files or call `mem_save`.
 
 > **CRITICAL — Response ordering**: Your FINAL output MUST be text (the return envelope), NOT a tool call. If you need to save to Engram (`mem_save`), do it BEFORE your final text response. Do NOT call `mem_session_summary` — that's for top-level agents only. **Why**: When a sub-agent's last action is a tool call, the parent agent receives only the tool result — your text response (the actual analysis) is lost.
 
-After the phase returns, the orchestrator runs F3 structural validation (pre-gatekeeper) on the return envelope before content-level checks. After all validations pass, the orchestrator compresses the envelope to ~500 tokens before synthesis, respecting the `compression_level` field from the pipeline profile.
-
 Every phase MUST return a structured envelope to the orchestrator:
 
 - `status`: `success`, `partial`, or `blocked`
@@ -99,6 +97,7 @@ Example:
 SDD must protect reviewer cognitive load, not only generate tasks.
 
 - The default PR review budget is **400 changed lines** (`additions + deletions`).
+- Count authored text additions plus deletions only for this threshold. Generated goldens are excluded from authored risk count but remain included in complete snapshot identity and receipt validation.
 - The orchestrator MUST cache a delivery strategy at session start: `ask-on-risk` (default), `auto-chain`, `single-pr`, or `exception-ok`.
 - The orchestrator MUST pass `delivery_strategy` to `sdd-tasks` and the resolved decision to `sdd-apply`.
 - `sdd-tasks` MUST forecast whether the planned work may exceed that budget.
