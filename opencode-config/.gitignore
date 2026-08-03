@@ -1,0 +1,17 @@
+# Node / plugins
+node_modules/
+bun.lock
+package-lock.json
+
+# Backups locales
+opencode.json.bak-*
+
+# Caché skill-registry
+.atl/
+
+# Temporales / estado de hooks
+.gentle-ai-*.tmp
+.gentle-ai-default-agent.json
+
+# YAML state
+.engram/

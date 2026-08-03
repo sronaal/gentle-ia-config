@@ -1,0 +1,233 @@
+{
+  "cloud_storage": {
+    "aws_s3": [
+      "site:s3.amazonaws.com \"example\"",
+      "site:s3.amazonaws.com \"ListBucket\"",
+      "site:amazonaws.com \"s3\" \"Backup\"",
+      "inurl:s3.amazonaws.com filetype:xls",
+      "site:s3.amazonaws.com \"logs\"",
+      "site:s3.amazonaws.com \"config\"",
+      "\"S3 Bucket\" \"example.com\""
+    ],
+    "gcs": [
+      "site:storage.googleapis.com \"example\"",
+      "site:storage.googleapis.com \"ListBucket\"",
+      "site:storage.cloud.google.com \"Backup\"",
+      "inurl:storage.googleapis.com filetype:sql",
+      "site:googleapis.com \"storage\" \"backup\""
+    ],
+    "azure_blob": [
+      "site:blob.core.windows.net \"example\"",
+      "site:blob.core.windows.net \"index\"",
+      "site:core.windows.net \"backup\" filetype:sql",
+      "site:azurewebsites.net \"connectionstring\"",
+      "inurl:blob.core.windows.net filetype:env"
+    ],
+    "firebase": [
+      "site:firebaseio.com \"example\"",
+      "site:firebasedatabase.app \"users\"",
+      "inurl:firebaseio.com \".json\"",
+      "site:firebaseio.com \"private\""
+    ],
+    "digitalocean": [
+      "site:digitaloceanspaces.com \"example\"",
+      "site:nyc3.digitaloceanspaces.com \"backup\""
+    ]
+  },
+  "llm_ai": {
+    "openai": [
+      "inurl:openai \"api_key\"",
+      "inurl:.env \"OPENAI_API_KEY\"",
+      "site:github.com \"sk-proj-\"",
+      "\"sk-org_\" \"api_key\"",
+      "site:pastebin.com \"sk-proj-\""
+    ],
+    "ollama": [
+      "inurl:11434 \"Ollama\"",
+      "site:shodan.io \"ollama\" port:11434",
+      "inurl:.env \"OLLAMA_HOST\"",
+      "\"Ollama is running\" \"port 11434\""
+    ],
+    "huggingface": [
+      "site:huggingface.co \"api_token\"",
+      "site:huggingface.co \"HF_API_TOKEN\"",
+      "inurl:huggingface.co \"private\" model",
+      "site:huggingface.co \"deploy\" \"api\""
+    ],
+    "lm_studio": [
+      "inurl:1234 \"LM Studio\"",
+      "\"LM Studio\" \"api\" port:1234"
+    ]
+  },
+  "api_gateways": {
+    "kong": [
+      "inurl:8001 \"kong\"",
+      "site:konghq.com \"admin\"",
+      "inurl:8444 \"kong\"",
+      "\"Kong Admin\" \"api\" inurl:8001"
+    ],
+    "apigee": [
+      "site:apigee.io \"api\"",
+      "inurl:apigee \"management\"",
+      "site:googleapis.com \"apigee\""
+    ],
+    "traefik": [
+      "inurl:8080 \"traefik\"",
+      "site:traefik.io \"dashboard\"",
+      "\"traefik\" \"provider\" \"api\""
+    ],
+    "aws_api_gw": [
+      "site:amazonaws.com \"execute-api\"",
+      "inurl:amazonaws.com \"api\" \"prod\"",
+      "site:amazonaws.com \"swagger\" \"api\""
+    ]
+  },
+  "iot_devices": {
+    "routers": [
+      "inurl:techlogin inurl::8443",
+      "intitle:\"router\" \"admin\" intext:password",
+      "intitle:\"Status\" \"WAN\" \"LAN\" intext:router",
+      "intitle:\"login\" \"TP-LINK\" \"password\"",
+      "intitle:\"NETGEAR\" \"smart wizard\"",
+      "inurl:cgi-bin intext:Router",
+      "\"D-Link\" \"login\" intitle:\"admin\""
+    ],
+    "cameras": [
+      "intitle:\"Hikvision\" \"Web Client\"",
+      "intitle:\"Dahua\" \"Web Login\"",
+      "intitle:\"iSCAN\" \"Login\"",
+      "inurl:view/viewer_index.shtml",
+      "inurl:doc/page/login.asp",
+      "inurl:top.htm inurl:current_time.htm",
+      "intitle:\"IP Camera\" \"Live\"",
+      "intitle:\"Reolink\" \"Login\""
+    ],
+    "nas": [
+      "intitle:\"Synology\" \"Web Assistant\"",
+      "intitle:\"QNAP\" \"QTS\" \"login\"",
+      "intitle:\"DiskStation\" \"login\"",
+      "inurl:8080 \"Web File Manager\"",
+      "inurl:5001 \"synology\""
+    ],
+    "printers": [
+      "intitle:\"HP LaserJet\" \"Settings\"",
+      "intitle:\"Brother\" \"Printer\" \"Status\"",
+      "inurl:jetdirect "hp/device",
+      "inurl:hp/device/this.LCDispatcher"
+    ],
+    "scada": [
+      "intitle:\"HMI\" \"SCADA\" inurl:8080",
+      "inurl:modbus intext:gateway",
+      "intitle:\"BACnet\" \"Building\"",
+      "inurl:9880 \"HMI\"",
+      "\"PLC\" \"Web Server\" intitle:\"login\""
+    ]
+  },
+  "databases": {
+    "mongodb": [
+      "inurl:27017 \"MongoDB\"",
+      "site:shodan.io \"MongoDB\" port:27017",
+      "\"MongoDB Server Information\"",
+      "inurl:28017 \"MongoDB\""
+    ],
+    "elasticsearch": [
+      "inurl:9200 \"elasticsearch\"",
+      "intitle:\"Elasticsearch\" \"cluster_name\"",
+      "inurl:5601 \"kibana\" \"login\"",
+      "site:shodan.io \"elasticsearch\" port:9200"
+    ],
+    "redis": [
+      "inurl:6379 \"redis\"",
+      "site:shodan.io \"redis\" port:6379",
+      "\"redis_version\" \"uptime\""
+    ],
+    "mysql_pg": [
+      "site:shodan.io \"MySQL\" port:3306",
+      "site:shodan.io \"PostgreSQL\" port:5432",
+      "inurl:5432 \"PostgreSQL\""
+    ],
+    "couchdb": [
+      "inurl:5984 \"CouchDB\"",
+      "\"couchdb\" \"uuid\" \"version\""
+    ]
+  },
+  "cicd": {
+    "github_actions": [
+      "site:github.com \"uses: actions/checkout\" \"secrets\"",
+      "site:github.com \"workflow_dispatch\" \"repository_dispatch\"",
+      "site:github.com inurl:.github/workflows \"env:\"",
+      "site:gist.github.com \"GITHUB_TOKEN\"",
+      "inurl:.github/workflows filetype:yml \"pull_request\""
+    ],
+    "gitlab_ci": [
+      "site:gitlab.com \".gitlab-ci.yml\" \"variables\"",
+      "site:gitlab.com \"CI_JOB_TOKEN\"",
+      "inurl:.gitlab-ci.yml \"deploy\""
+    ],
+    "jenkins": [
+      "intitle:\"Dashboard [Jenkins]\"",
+      "intitle:\"Jenkins\" \"Manage Jenkins\"",
+      "inurl:8080 \"jenkins\" \"login\""
+    ]
+  },
+  "kubernetes": {
+    "configs": [
+      "inurl:kubeconfig \"certificate-authority\"",
+      "intitle:\"Kubernetes\" \"Dashboard\"",
+      "inurl:6443 \"kubernetes\"",
+      "site:github.com \"kubeconfig\" \"apiVersion\"",
+      "inurl:.kube/config \"clusters\"",
+      "inurl:10250 \"kubelet\" \"pods\""
+    ],
+    "manifests": [
+      "site:github.com inurl:deployment.yaml \"apiVersion: apps\"",
+      "site:github.com inurl:helmfile \"repositories\"",
+      "site:github.com \"values.yaml\" \"adminPassword\""
+    ]
+  },
+  "code_secrets": {
+    "tokens_keys": [
+      "site:github.com inurl:.env \"DB_PASSWORD\"",
+      "site:github.com \"-----BEGIN RSA PRIVATE KEY-----\"",
+      "site:github.com \"aws_secret_access_key\"",
+      "site:github.com \"slack_token\"",
+      "site:github.com \"ghp_\" OR \"gho_\" OR \"ghu_\"",
+      "site:github.com \"AIza\" (Google API Key)",
+      "site:github.com \"sk_live_\" (Stripe Live)",
+      "site:github.com \"AKIA\" (AWS Access Key)"
+    ],
+    "pastebin": [
+      "site:pastebin.com \"password\" \"admin\"",
+      "site:pastebin.com \"api_key\" \"secret\"",
+      "site:pastebin.com \"connectionString\"",
+      "site:pastebin.com \"aws_secret\""
+    ]
+  },
+  "serverless": {
+    "lambda": [
+      "site:amazonaws.com \"lambda\" \"function\"",
+      "site:amazonaws.com \"serverless\" \"api\"",
+      "inurl:amazonaws.com \"lambda\" \"env\""
+    ],
+    "cloud_functions": [
+      "site:cloudfunctions.net \"example\"",
+      "site:azurewebsites.net \"api\" \"function\""
+    ]
+  },
+  "shadow_it": {
+    "notion": [
+      "site:notion.so \"workspace\" \"example.com\"",
+      "site:notion.site \"internal\" \"example\"",
+      "site:notion.so \"password\" \"example\""
+    ],
+    "trello": [
+      "site:trello.com \"example.com\" \"password\"",
+      "site:trello.com \"confidential\" \"example\"",
+      "site:trello.com \"API key\" \"example\""
+    ],
+    "asana": [
+      "site:app.asana.com \"example\" \"project\"",
+      "site:asana.com \"settings\" \"example.com\""
+    ]
+  }
+}

@@ -1,6 +1,219 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
+    "pentest-orchestrator": {
+      "description": "Pentest orchestrator — 129 skills across 7 phases with OPSEC controls, scope containment, and chain-based attack automation",
+      "mode": "primary",
+      "permission": {
+        "question": "allow",
+        "task": {
+          "*": "deny",
+          "sdd-apply": "allow",
+          "sdd-design": "allow",
+          "sdd-explore": "allow",
+          "review-readability": "allow",
+          "review-reliability": "allow",
+          "pentest-recon": "allow",
+          "pentest-enum": "allow",
+          "pentest-exploit": "allow",
+          "pentest-post": "allow",
+          "pentest-chain": "allow",
+          "pentest-mobile": "allow",
+          "pentest-cicd": "allow",
+          "pentest-supplychain": "allow",
+          "pentest-pivot": "allow",
+          "pentest-analyzer": "allow",
+          "pentest-reporter": "allow"
+        }
+      },
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-orchestrator.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-recon": {
+      "description": "Recon specialist — passive/active recon, OSINT, subdomain, CORS, source leaks — tools: subfinder, amass, httpx, whatweb, curl, shodan, censys, ffuf, gowitness, wpscan, katana, theHarvester, playwright, google-search",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-recon.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-enum": {
+      "description": "Enumeration specialist — ports, services, dir busting, API, infra — tools: nmap, masscan, ffuf, gobuster, wpscan, testssl.sh, smbclient, ldapsearch, snmpwalk, kubectl, docker, aws-cli, gsutil, az-cli, redis-cli, mongosh, bloodhound-python",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-enum.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-exploit": {
+      "description": "Exploitation specialist — XSS, SQLi, SSRF, RCE, IDOR, deserialization — tools: sqlmap, dalfox, commix, jwt_tool, ysoserial, impacket, certipy, mimikatz, hashcat, apktool, jadx, frida, objection, adb, grpcurl, hydra, nuclei, msfvenom, searchsploit",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-exploit.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-post": {
+      "description": "Post-exploitation specialist — privesc, cred dump, lateral, exfil — tools: linpeas, WinPEAS, mimikatz, impacket, crackmapexec, evil-winrm, netcat, socat, chisel, proxychains, sshuttle, hashcat, john, laZagne",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-post.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-chain": {
+      "description": "Attack chain specialist — multi-step chaining, CORS→XMLRPC→RCE, SSRF→IMDS — tools: curl, wpscan, mysql, burp, python3, ffuf",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-chain.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-mobile": {
+      "description": "Mobile assessment specialist — Android/iOS, APK decompile, Frida, Objection, storage audit, iOS analysis",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-mobile.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-cicd": {
+      "description": "CI/CD pipeline security auditor — GitHub Actions, GitLab CI, pipeline enumeration, misconfiguration scanning",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-cicd.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-supplychain": {
+      "description": "Supply chain security auditor — dependency confusion, typosquatting, npm/pip/gem audit",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-supplychain.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-pivot": {
+      "description": "Pivoting specialist — SSH tunnels, SOCKS chains, HTTP tunnels, container escape, lateral movement",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-pivot.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-analyzer": {
+      "description": "Findings analyst — consolidate, deduplicate, correlate, risk score",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-analyzer.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
+    "pentest-reporter": {
+      "description": "Report specialist — Markdown, HTML, CSV, executive reports — tools: jinja2, markdown, gowitness, playwright",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:/home/sronaalz/.config/opencode/prompts/pentest-reporter.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "question": true,
+        "read": true,
+        "task": true,
+        "write": true
+      }
+    },
     "gentle-orchestrator": {
       "description": "Gentle AI SDD Orchestrator - coordinates sub-agents, never does work inline",
       "mode": "primary",
@@ -477,6 +690,13 @@
     "openpencil": {
       "args": [],
       "command": "openpencil-mcp-http",
+      "enabled": true,
+      "type": "local"
+    },
+    "ssh-manager": {
+      "command": [
+        "/home/linuxbrew/.linuxbrew/bin/mcp-ssh-manager"
+      ],
       "enabled": true,
       "type": "local"
     }

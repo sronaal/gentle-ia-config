@@ -53,3 +53,29 @@ Fecha: 2026-07-27 09:19
 [5/5] Respaldando Engram...
   ✅ engram/ (backup via sqlite3)
 [6/6] Commiteando y pusheando...
+[main 667ecec] backup: 2026-07-27
+ 40 files changed, 1494 insertions(+), 494 deletions(-)
+ create mode 100644 opencode-config/.atl/.skill-registry.cache.json
+ create mode 100644 opencode-config/.atl/skill-registry.md
+ create mode 100644 opencode-config/.gentle-ai-default-agent.json
+ create mode 100644 opencode-config/plugins/review-result-artifacts.ts
+ create mode 100644 opencode-config/skills/sdd-design/references/threat-matrix.md
+To https://github.com/sronaal/gentle-ia-config.git
+   c26cd61..667ecec  main -> main
+  ✅ Commit y push exitoso
+
+=== Backup completado ===
+=== Gentle AI Config Backup ===
+Fecha: 2026-08-03 09:00
+
+[1/5] Copiando OpenCode config...
+  ✅ opencode-config/
+[2/5] Copiando agent skills...
+  ✅ agents-skills/
+[3/5] Copiando dotfiles...
+  ✅ dotfiles/
+[4/5] Copiando skill registry...
+  ✅ atl/
+[5/5] Respaldando Engram...
+  ✅ engram/ (backup via sqlite3)
+[6/6] Commiteando y pusheando...
