@@ -741,7 +741,21 @@
         "baseURL": "http://localhost:11434/v1",
         "chunkTimeout": 60000
       }
+    },
+    "agentrouter": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "AgentRouter",
+      "options": {
+        "baseURL": "https://co.agentrouter.org/v1"
+      },
+      "models": {
+        "step3p5-code-alpha": {
+          "name": "Step 3.5 Code Alpha"
+        }
+      }
     }
   },
+  "model": "agentrouter/step3p5-code-alpha",
   "share": "disabled"
 }
+
