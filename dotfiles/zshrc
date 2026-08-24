@@ -110,3 +110,13 @@ export PATH=/home/sronaalz/.mimocode/bin:$PATH
 
 # Added by codebase-memory-mcp install
 export PATH="/home/sronaalz/.local/bin:$PATH"
+
+# Gentle AI review: always bind sub-agents to the current git repo
+function opencode() {
+  local repo
+  if repo="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    GENTLE_AI_REVIEW_CWD="$repo" command opencode "$@"
+  else
+    command opencode "$@"
+  fi
+}

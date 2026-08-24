@@ -486,3 +486,34 @@ Fecha: 2026-08-17 09:00
 [5/5] Respaldando Engram...
   ✅ engram/ (backup via sqlite3)
 [6/6] Commiteando y pusheando...
+[main 6bb8b70] backup: 2026-08-17
+ 12 files changed, 6165 insertions(+)
+ create mode 100644 opencode-config/skills/threejs-animation/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-fundamentals/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-geometry/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-interaction/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-lighting/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-loaders/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-materials/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-postprocessing/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-shaders/SKILL.md
+ create mode 100644 opencode-config/skills/threejs-textures/SKILL.md
+To https://github.com/sronaal/gentle-ia-config.git
+   450da7b..6bb8b70  main -> main
+  ✅ Commit y push exitoso
+
+=== Backup completado ===
+=== Gentle AI Config Backup ===
+Fecha: 2026-08-24 09:00
+
+[1/5] Copiando OpenCode config...
+  ✅ opencode-config/
+[2/5] Copiando agent skills...
+  ✅ agents-skills/
+[3/5] Copiando dotfiles...
+  ✅ dotfiles/
+[4/5] Copiando skill registry...
+  ✅ atl/
+[5/5] Respaldando Engram...
+  ✅ engram/ (backup via sqlite3)
+[6/6] Commiteando y pusheando...
