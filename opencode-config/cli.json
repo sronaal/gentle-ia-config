@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "opencode"
+  },
+  "keybinds": {
+    "variant.cycle": "alt+t"
+  },
+  "plugins": [
+    "opencode-subagent-statusline",
+    "opencode-sdd-engram-manage",
+    "/home/sronaalz/.config/opencode/tui-plugins/gentle-logo.tsx"
+  ],
+  "diffs": {
+    "wrap": "word"
+  },
+  "session": {
+    "sidebar": "auto",
+    "scrollbar": false,
+    "thinking": "hide"
+  },
+  "animations": true
+}
