@@ -30,3 +30,8 @@ fi
 # Added by Toolbox App
 export PATH="$PATH:/home/sronaalz/.local/share/JetBrains/Toolbox/scripts"
 
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/sronaalz/.lmstudio/bin"
+# End of LM Studio CLI section
+

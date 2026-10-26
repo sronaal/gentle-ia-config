@@ -601,3 +601,26 @@ Fecha: 2026-10-19 09:00
 [5/5] Respaldando Engram...
   ✅ engram/ (backup via sqlite3)
 [6/6] Commiteando y pusheando...
+[main f6b786a] backup: 2026-10-19
+ 5 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 opencode-config/cli.json
+ create mode 100644 opencode-config/service.json
+To https://github.com/sronaal/gentle-ia-config.git
+   e60c247..f6b786a  main -> main
+  ✅ Commit y push exitoso
+
+=== Backup completado ===
+=== Gentle AI Config Backup ===
+Fecha: 2026-10-26 09:00
+
+[1/5] Copiando OpenCode config...
+  ✅ opencode-config/
+[2/5] Copiando agent skills...
+  ✅ agents-skills/
+[3/5] Copiando dotfiles...
+  ✅ dotfiles/
+[4/5] Copiando skill registry...
+  ✅ atl/
+[5/5] Respaldando Engram...
+  ✅ engram/ (backup via sqlite3)
+[6/6] Commiteando y pusheando...
